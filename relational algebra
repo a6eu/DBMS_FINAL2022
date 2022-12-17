@@ -1,0 +1,13 @@
+1)AVG(check_out_date - check_in_date) (π check_out_date, check_in_date (bookings))
+
+2)π rc.name, COUNT(r.room_id) (r ⋈ room_categories rc ON r.category_id = rc.category_id)
+
+3)SUM(amount) (π amount (bills) WHERE service_id IS NULL)
+
+4)π g.first_name, g.last_name, r.room_number (g ⋈ (bookings ⋈ rooms) b r ON g.guest_id = b.guest_id AND b.room_id = r.room_id WHERE r.category_id IN (π category_id (room_categories) WHERE name IN ("Standard", "Deluxe")) GROUP BY g.guest_id HAVING COUNT(DISTINCT r.category_id) = 1)
+
+5)π g.first_name, g.last_name (guests g WHERE EXISTS (π 1 (bookings ⋈ rooms) b r ON b.room_id = r.room_id WHERE b.guest_id = g.guest_id AND r.category_id IN (π category_id (room_categories) WHERE name = 'Standard')) AND NOT EXISTS (π 1 (bookings ⋈ rooms) b r ON b.room_id = r.room_id WHERE b.guest_id = g.guest_id AND r.category_id IN (π category_id (room_categories) WHERE name = 'Suite')))
+
+6)π g.first_name, g.last_name, r.room_number (g ⋈ (bookings ⋈ (rooms ⋈ service_bookings) r sb ON b.room_id = r.room_id AND b.guest_id = sb.guest_id) b ON g.guest_id = b.guest_id WHERE r.category_id IN (π category_id (room_categories) WHERE name like 'Standard') AND sb.service_id IN (π service_id (services) WHERE name like 'Massage'))
+
+7)SUM(amount) (π amount (bills bi ⋈ bookings b ON bi.guest_id = b.guest_id AND bi.date BETWEEN b.check_in_date AND b.check_out_date) WHERE b.guest_id = 123)

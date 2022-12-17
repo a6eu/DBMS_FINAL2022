@@ -1,0 +1,53 @@
+Table: departments
+
+department_id -> name, description
+Table: employees
+
+employee_id -> first_name, last_name, email, phone_number, job_title, department_id
+department_id -> name, description (from the departments table)
+
+Table: bills
+
+bill_id -> guest_id, room_id, service_id, date, amount
+guest_id -> first_name, last_name, email, phone_number, special_requests (from the guests table)
+room_id -> room_number, category_id (from the rooms table)
+service_id -> name, description, price (from the services table)
+category_id -> name, description (from the room_categories table)
+
+Table: bookings
+
+booking_id -> guest_id, room_id, check_in_date, check_out_date
+guest_id -> first_name, last_name, email, phone_number, special_requests (from the guests table)
+room_id -> room_number, category_id (from the rooms table)
+category_id -> name, description (from the room_categories table)
+
+Table: guests
+
+guest_id -> first_name, last_name, email, phone_number, special_requests
+Table: payments
+
+payment_id -> bill_id, payment_method, amount
+bill_id -> guest_id, room_id, service_id, date, amount (from the bills table)
+
+Table: reviews
+
+review_id -> guest_id, rating, review
+guest_id -> first_name, last_name, email, phone_number, special_requests (from the guests table)
+Table: room_categories
+
+category_id -> name, description
+
+Table: rooms
+
+room_id -> room_number, category_id
+category_id -> name, description (from the room_categories table)
+
+Table: service_bookings
+
+service_booking_id -> service_id, guest_id, date
+service_id -> name, description, price (from the services table)
+guest_id -> first_name, last_name, email, phone_number, special_requests (from the guests table)
+
+Table: services
+
+service_id -> name, description, price
